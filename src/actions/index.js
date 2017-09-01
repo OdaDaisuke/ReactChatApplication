@@ -8,3 +8,8 @@ export const onTypeMessage = (message) => ({
   type: actionTypes.TYPING_MESSAGE,
   message
 })
+
+export const onSelectUser = (uuid) => ({
+  type: actionTypes.SELECT_USER,
+  uuid
+})

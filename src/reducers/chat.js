@@ -10,12 +10,26 @@ let chatMold = {
   }
 }
 
+let userMold = {
+  user: {
+    screenname: "表示　名前",
+    profileUrl: 'image url',
+    handleName: "handle_name",
+    created: "timestamp",
+    uuid: "abcdefg"
+  }
+}
+
 const initialAppState = {
   message: '',
   sending: false,
   typing: false,
+  myId: 'myuuid',
+  currentOpponent: 'uuid',
   chat: chatMold.chat,
-  chats: [chatMold.chat]
+  user: userMold.user,
+  chats: [chatMold.chat],
+  users: [userMold.user]
 }
 
 const chat = (state = initialAppState, action) => {
@@ -28,7 +42,7 @@ const chat = (state = initialAppState, action) => {
         message: '',
         chats: [...state.chats, {
           uuid: uuid,
-          message: state.message
+          body: state.message
         }]
       }
       break
@@ -39,6 +53,12 @@ const chat = (state = initialAppState, action) => {
         message: action.message
       }
       break
+
+    case actionTypes.SELECT_USER :
+      return {
+        ...state,
+        currentOpponent: action.uuid
+      }
 
     default:
       return state
