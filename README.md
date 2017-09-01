@@ -1,2 +1,4 @@
-Reduxのサンプル
-電卓の仕組みをreact+reduxで実装.
+# React+Reduxでチャットアプリ
+
+バックエンドはとりあえずFirebaseで開発していって、
+後々Railsを適用。
