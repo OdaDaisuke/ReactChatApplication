@@ -14,8 +14,6 @@ class ChatContainer extends Component {
       <div>
         <UsersSidebar selectedUserId={chat.currentOpponent.uuid} onSelectUser={actions.onSelectUser} users={chat.users} />
         <section className="content--main">
-          <textarea value={chat.message} onChange={e => actions.onTypeMessage(e.target.value)}></textarea>
-          <button onClick={actions.onSubmitMessage}>送信</button>
           <div className="chat-area">
             {chat.chats.map(_chat => {
               if(_chat.from_id === chat.currentOpponent.uuid &&
@@ -28,7 +26,10 @@ class ChatContainer extends Component {
                 return ''
               }
             })}
-            <p>相手 : @{chat.currentOpponent.screenname}</p>
+            <div>
+              <textarea value={chat.message} onChange={e => actions.onTypeMessage(e.target.value)}></textarea>
+              <button onClick={actions.onSubmitMessage}>送信</button>
+            </div>
           </div>
         </section>
       </div>
@@ -43,18 +44,24 @@ class ChatContainer extends Component {
     this.props.chat.users = [{
       screenname: "田中太郎",
       profileUrl: 'http://placehold.jp/444444/ffffff/150x150.png?text=User',
-      handleName: "handle_name",
+      handle_name: "tanaka_3484_ziro",
       created: "timestamp",
       uuid: "abcdefg"
     }, {
       screenname: "田中二郎",
       profileUrl: 'http://placehold.jp/444444/ffffff/150x150.png?text=User',
-      handleName: "ziro_name",
+      handle_name: "ziro_name",
       created: "timestamp",
       uuid: "zirodesu"
     }]
 
-    this.props.chat.currentOpponent = 'zirodesu'
+    this.props.chat.currentOpponent = {
+      screenname: "田中二郎",
+      profileUrl: 'http://placehold.jp/444444/ffffff/150x150.png?text=User',
+      handle_name: "ziro_name",
+      created: "timestamp",
+      uuid: "zirodesu"
+    }
     this.props.chat.myId = 'daisukeoda'
 
     this.props.chat.chats = [{

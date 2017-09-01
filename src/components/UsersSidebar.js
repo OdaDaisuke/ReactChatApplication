@@ -13,7 +13,10 @@ const UserSidebar = ({users, selectedUserId, onSelectUser}) => (
             <div className="profile">
               <img src={user.profileUrl} alt={user.screenname} />
             </div>
-            <p>{user.screenname}</p>
+            <div className="names">
+              <h3>{user.screenname}</h3>
+              <p>@{user.handle_name}</p>
+            </div>
           </div>
         )
       })}

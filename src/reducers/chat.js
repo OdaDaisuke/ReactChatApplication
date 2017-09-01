@@ -15,7 +15,7 @@ let userMold = {
   user: {
     screenname: "表示　名前",
     profileUrl: 'image url',
-    handleName: "handle_name",
+    handle_name: "handle_name",
     created: "timestamp",
     uuid: "abcdefg"
   }
@@ -37,7 +37,7 @@ const chat = (state = initialAppState, action) => {
   switch(action.type) {
     case actionTypes.SENDING_MESSAGE :
       if(state.message.length < 1) return state
-      
+
       let uuid = funcs.generateUUID()
 
       return {

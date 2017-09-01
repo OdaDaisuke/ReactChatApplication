@@ -9,7 +9,12 @@ body {
   background-color:#1f1f1f;
   color:#fff;
   font-family: Quicksand, 游ゴシック体, "Yu Gothic", YuGothic, "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic";
+  font-size:15px;
   padding-top: 60px;
+}
+h1,h2,h3,h4,h5,h6,p {
+  margin-top: 0;
+  line-height: 1;
 }
 
 /**
@@ -48,7 +53,7 @@ footer {
 }
 
 .user-sidebar {
-  background-color: #efefef;
+  background-color: #fff;
   height: 100%;
   left: 0;
   position: fixed;
@@ -58,16 +63,37 @@ footer {
 }
 .user-item {
   color:#000;
+  cursor: pointer;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  padding:.5rem;
 }
-.user-item .profile {
-  border-radius: 50%;
-  display: block;
-  height:60px;
-  overflow: hidden;
-  width:60px;
-}
+  .user-item .profile {
+    border-radius: 50%;
+    flex:0 0 50px;
+    height:45px;
+    margin-right: 10px;
+    overflow: hidden;
+    width:45px;
+  }
+  .user-item .names {
+    flex:1 1 auto;
+  }
+  .user-item .names h3 {
+    font-weight: lighter;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .user-item .names p {
+    color:#5f5f5f;
+    font-size: .8rem;
+    margin-bottom: 1px;
+  }
 .user-item.selected {
-  background-color:rgba(0,0,0,0.5);
+  background-color:rgba(33, 150, 243, 0.1);
 }
 
 .content--main {
