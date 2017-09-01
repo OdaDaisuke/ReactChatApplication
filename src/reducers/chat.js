@@ -1,4 +1,5 @@
 import * as actionTypes from "../constants/actionTypes"
+import funcs from "../functions"
 
 let chatMold = {
   chat: {
@@ -25,8 +26,8 @@ const initialAppState = {
   sending: false,
   typing: false,
   myId: 'myuuid',
-  currentOpponent: 'uuid',
   chat: chatMold.chat,
+  currentOpponent: userMold.user,
   user: userMold.user,
   chats: [chatMold.chat],
   users: [userMold.user]
@@ -34,50 +35,51 @@ const initialAppState = {
 
 const chat = (state = initialAppState, action) => {
   switch(action.type) {
-    case actionTypes.SUBMIT_MESSAGE :
-      let uuid = generateUUID()
+    case actionTypes.SENDING_MESSAGE :
+      if(state.message.length < 1) return state
+      
+      let uuid = funcs.generateUUID()
 
       return {
         ...state,
         message: '',
         chats: [...state.chats, {
           uuid: uuid,
+          from_id: state.myId,
+          send_to: state.currentOpponent.uuid,
           body: state.message
         }]
       }
-      break
 
     case actionTypes.TYPING_MESSAGE :
       return {
         ...state,
         message: action.message
       }
-      break
 
     case actionTypes.SELECT_USER :
+      /* actionで「uuid」が渡されるので概要ユーザのオブジェクトを
+       * 取得してcurrentOpponentにセット
+       */
+      let opponentUser = null;
+
+      for(let i = 0; i < state.users.length; ++i) {
+        let user = state.users[i]
+        if(user.uuid === action.uuid) {
+          opponentUser = user
+          break;
+        }
+      }
+
       return {
         ...state,
-        currentOpponent: action.uuid
+        currentOpponent: opponentUser
       }
 
     default:
       return state
 
   }
-
-}
-
-function generateUUID() {
-  const UUID_LENGTH = 40
-  let character = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz';
-  var uuid = '';
-
-  for(var i = 0; i < character.length; i++) {
-    var r = parseInt(Math.random() * character.length - 1)
-    uuid += character[r]
-  }
-
-  return uuid
 
 }
 

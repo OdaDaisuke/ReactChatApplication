@@ -1,7 +1,7 @@
 import * as actionTypes from '../constants/actionTypes';
 
 export const onSubmitMessage = () => ({
-  type: actionTypes.SUBMIT_MESSAGE,
+  type: actionTypes.SENDING_MESSAGE,
 })
 
 export const onTypeMessage = (message) => ({

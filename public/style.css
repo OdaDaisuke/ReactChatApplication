@@ -59,6 +59,17 @@ footer {
 .user-item {
   color:#000;
 }
+.user-item .profile {
+  border-radius: 50%;
+  display: block;
+  height:60px;
+  overflow: hidden;
+  width:60px;
+}
+.user-item.selected {
+  background-color:rgba(0,0,0,0.5);
+}
+
 .content--main {
   margin-left: 200px;
 }

@@ -3,7 +3,6 @@ import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 
 import * as actions from "../actions"
-
 import UsersSidebar from "../components/UsersSidebar"
 
 class ChatContainer extends Component {
@@ -13,21 +12,23 @@ class ChatContainer extends Component {
 
     return (
       <div>
-        <UsersSidebar onSelectUser={actions.onSelectUser} users={chat.users} />
+        <UsersSidebar selectedUserId={chat.currentOpponent.uuid} onSelectUser={actions.onSelectUser} users={chat.users} />
         <section className="content--main">
           <textarea value={chat.message} onChange={e => actions.onTypeMessage(e.target.value)}></textarea>
           <button onClick={actions.onSubmitMessage}>送信</button>
           <div className="chat-area">
             {chat.chats.map(_chat => {
-              if(_chat.from_id === chat.currentOpponent &&
+              if(_chat.from_id === chat.currentOpponent.uuid &&
                 _chat.send_to === chat.myId) {
                 return <p className="receive">{_chat.body}</p>
               } else if(_chat.from_id === chat.myId &&
-                  _chat.send_to === chat.currentOpponent) {
+                  _chat.send_to === chat.currentOpponent.uuid) {
                 return <p className="send">{_chat.body}</p>
+              } else {
+                return ''
               }
             })}
-            <p>相手 : @{chat.currentOpponent}</p>
+            <p>相手 : @{chat.currentOpponent.screenname}</p>
           </div>
         </section>
       </div>
@@ -41,13 +42,13 @@ class ChatContainer extends Component {
     // 繋がり済みのユーザをajaxで取得
     this.props.chat.users = [{
       screenname: "田中太郎",
-      profileUrl: 'image url',
+      profileUrl: 'http://placehold.jp/444444/ffffff/150x150.png?text=User',
       handleName: "handle_name",
       created: "timestamp",
       uuid: "abcdefg"
     }, {
       screenname: "田中二郎",
-      profileUrl: 'image url',
+      profileUrl: 'http://placehold.jp/444444/ffffff/150x150.png?text=User',
       handleName: "ziro_name",
       created: "timestamp",
       uuid: "zirodesu"

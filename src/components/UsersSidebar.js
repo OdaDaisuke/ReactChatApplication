@@ -1,14 +1,23 @@
-import React, { Component } from "react"
+import React from "react"
+import ClassNames from "classnames"
 
-const UserSidebar = ({users, onSelectUser}) => (
-  <aside className="user-sidebar">
-    {users.map(user => (
-      <div className="user-item" uuid={user.uuid} onClick={() => onSelectUser(user.uuid)}>
-        <img src="{user.profileUrl}" alt="profile" />
-        <p>{user.screenname}</p>
-      </div>
-    ))}
-  </aside>
+const UserSidebar = ({users, selectedUserId, onSelectUser}) => (
+    <aside className="user-sidebar">
+      {users.map(user => {
+        const classNames = ClassNames({
+          "user-item": true,
+          "selected": (user.uuid === selectedUserId)
+        })
+        return (
+          <div className={classNames} key={user.uuid} onClick={() => onSelectUser(user.uuid)}>
+            <div className="profile">
+              <img src={user.profileUrl} alt={user.screenname} />
+            </div>
+            <p>{user.screenname}</p>
+          </div>
+        )
+      })}
+    </aside>
 )
 
 export default UserSidebar
