@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
+import $ from "jquery"
 
 import * as actions from "../actions"
 import UsersSidebar from "../components/UsersSidebar"
@@ -51,6 +52,9 @@ class ChatContainer extends Component {
 
   componentWillMount() {
     //　新規メッセージをキャッチするリスナー処理
+    this.startMessageListener()
+
+    this.loadUsersFromServer()
 
     // 繋がり済みのユーザをajaxで取得
     this.props.chat.users = [{
@@ -101,6 +105,12 @@ class ChatContainer extends Component {
       from_id: 'daisukeoda',
       send_to: 'zirodesu'
     },]
+  }
+
+  startMessageListener() {
+  }
+
+  loadUsersFromServer() {
   }
 
 }

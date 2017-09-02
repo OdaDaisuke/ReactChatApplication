@@ -61,7 +61,7 @@ const chat = (state = initialAppState, action) => {
       /* actionで「uuid」が渡されるので概要ユーザのオブジェクトを
        * 取得してcurrentOpponentにセット
        */
-      let opponentUser = null;
+      let opponentUser = null
 
       for(let i = 0; i < state.users.length; ++i) {
         let user = state.users[i]

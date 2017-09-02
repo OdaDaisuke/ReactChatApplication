@@ -78,11 +78,14 @@ footer {
 }
   .user-item .profile {
     border-radius: 50%;
-    flex:0 0 50px;
+    flex:0 0 45px;
     height:45px;
     margin-right: 10px;
     overflow: hidden;
-    width:45px;
+  }
+  .user-item .profile img {
+    height:100%;
+    width: 100%;
   }
   .user-item .names {
     flex:1 1 auto;
