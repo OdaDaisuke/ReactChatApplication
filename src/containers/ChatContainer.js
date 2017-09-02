@@ -55,21 +55,7 @@ class ChatContainer extends Component {
     this.startMessageListener()
 
     this.loadUsersFromServer()
-
-    // 繋がり済みのユーザをajaxで取得
-    this.props.chat.users = [{
-      screenname: "田中太郎",
-      profileUrl: 'http://placehold.jp/444444/ffffff/150x150.png?text=User',
-      handle_name: "tanaka_3484_t",
-      created: "timestamp",
-      uuid: "abcdefg"
-    }, {
-      screenname: "田中二郎",
-      profileUrl: 'http://placehold.jp/444444/ffffff/150x150.png?text=User',
-      handle_name: "ziro_name",
-      created: "timestamp",
-      uuid: "zirodesu"
-    }]
+    this.loadChatsFromServer()
 
     this.props.chat.currentOpponent = {
       screenname: "田中二郎",
@@ -111,6 +97,24 @@ class ChatContainer extends Component {
   }
 
   loadUsersFromServer() {
+    // 繋がり済みのユーザをajaxで取得
+    this.props.chat.users = [{
+      screenname: "田中太郎",
+      profileUrl: 'http://placehold.jp/444444/ffffff/150x150.png?text=User',
+      handle_name: "tanaka_3484_t",
+      created: "timestamp",
+      uuid: "abcdefg"
+    }, {
+      screenname: "田中二郎",
+      profileUrl: 'http://placehold.jp/444444/ffffff/150x150.png?text=User',
+      handle_name: "ziro_name",
+      created: "timestamp",
+      uuid: "zirodesu"
+    }]
+  }
+
+
+  loadChatsFromServer() {
   }
 
 }
