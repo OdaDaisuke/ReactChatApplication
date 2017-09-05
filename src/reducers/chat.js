@@ -7,11 +7,8 @@ const socket = io()
 socket.on('connect', () => {
   console.log('FRONT CONNECTED!!!')
 })
-socket.on('msg push', (msg) => {
+socket.on('return_send_message', (msg) => {
   console.log('RECEIVED!!! ', msg)
-})
-socket.on('msg updateDB', (msg) => {
-  console.log('UPDATED!!!!', msg)
 })
 
 let chatMold = {
@@ -60,7 +57,7 @@ const chat = (state = initialAppState, action) => {
         body: state.message,
       }
 
-      socket.emit('msg send', JSON.stringify(chat))
+      socket.emit('send_message', JSON.stringify(chat))
 
       return {
         ...state,

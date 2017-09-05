@@ -64,7 +64,7 @@ class ChatContainer extends Component {
       created: "timestamp",
       uuid: "zirodesu"
     }
-    
+
   }
 
   componentDidMount() {
@@ -72,11 +72,11 @@ class ChatContainer extends Component {
 
     let chats = null
     let _this = this
-    socket.emit('get msg', () => {
+    socket.emit('get_initial_message', () => {
       console.log('SEND MSG REQUEST')
 
     })
-    socket.on('msgs push', (chat_datas) => {
+    socket.on('return_initial_message', (chat_datas) => {
       chats = chat_datas
       console.log(chats)
       _this.props.actions.onInitialMessages(chats)

@@ -60,7 +60,7 @@ let server = http.createServer(app).listen(port, () => {
 // socket setting
 let io = require('socket.io').listen(server)
 io.sockets.on('connection', (socket) => {
-  socket.on('msg send', (msg) => {
+  socket.on('send_message', (msg) => {
     msg = JSON.parse(msg)
 
     // DBに登録
@@ -74,13 +74,14 @@ io.sockets.on('connection', (socket) => {
       if(err) console.log(err)
     })
 
-    socket.emit('msg push', msg)
-    socket.broadcast.emit('msg push', 'RECEIVEDmsg - ' + msg)
+    socket.emit('return_send_message', msg)
+    socket.broadcast.emit('return_send_message', 'BroadCast:' + msg)
   })
 
-  socket.on('get msg', () => {
+  socket.on('get_initial_message', () => {
     Chat.find((err, docs) => {
-      socket.emit('msgs push', docs)
+      socket.emit('return_initial_message', docs)
+      socket.broadcast.emit('return_initial_message', 'BroadCast:' + docs)
     })
   })
 
