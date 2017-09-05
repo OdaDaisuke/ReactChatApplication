@@ -8,6 +8,12 @@ $ yarn run develop # webpacでreactをビルド
 $ node ./server/server.js
 ```
 
+別タブでmongoを起動
+
+```terminal
+$ mongo
+```
+
 ## 2.開発する場合
 
 ```terminal
@@ -16,9 +22,11 @@ $ yarn run watch
 
 # 仕様
 
-View : React + Redux
-Backend : Node.js
-Chat System : WebSocket
+* View : React + Redux
+
+* Backend : Node.js
+
+* Chat System : WebSocket
 
 # チャット処理フロー
 
