@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import $ from "jquery"
+import io from 'socket.io-client'
 
 import * as actions from "../actions"
 import UsersSidebar from "../components/UsersSidebar"
@@ -52,10 +53,9 @@ class ChatContainer extends Component {
 
   componentWillMount() {
     //　新規メッセージをキャッチするリスナー処理
-    this.startMessageListener()
+    // this.startMessageListener()
 
     this.loadUsersFromServer()
-    this.loadChatsFromServer()
 
     this.props.chat.currentOpponent = {
       screenname: "田中二郎",
@@ -64,49 +64,28 @@ class ChatContainer extends Component {
       created: "timestamp",
       uuid: "zirodesu"
     }
-    this.props.chat.chats = [{
-      uuid: 'messageUUIDdesu',
-      created: 'timestamp',
-      body: 'よう',
-      from_id: 'zirodesu',
-      send_to: 'daisukeoda'
-    },{
-      uuid: 'messageUUIDdesuasdf',
-      created: 'timestamp',
-      body: 'おうどうした',
-      from_id: 'daisukeoda',
-      send_to: 'zirodesu'
-    },{
-      uuid: 'messageUUIDdesu',
-      created: 'timestamp',
-      body: 'サンプルのメッセージを送ります。「<br>asdfaa asfd」',
-      from_id: 'zirodesu',
-      send_to: 'daisukeoda'
-    },{
-      uuid: 'messageUUIDdesuasdf',
-      created: 'timestamp',
-      body: 'はい',
-      from_id: 'daisukeoda',
-      send_to: 'zirodesu'
-    },]
+    
   }
 
-  startMessageListener() {
+  componentDidMount() {
+    const socket = io()
+
+    let chats = null
+    let _this = this
+    socket.emit('get msg', () => {
+      console.log('SEND MSG REQUEST')
+
+    })
+    socket.on('msgs push', (chat_datas) => {
+      chats = chat_datas
+      console.log(chats)
+      _this.props.actions.onInitialMessages(chats)
+    })
   }
 
   loadUsersFromServer() {
     // let _this = this
     let user_id = this.props.chat.myId
-
-    $.ajax('/api/message', {
-      type: 'get',
-      data: {
-        from_id: user_id
-      }
-    })
-    .done((data) => {
-      console.log(data)
-    })
 
     // 繋がり済みのユーザをajaxで取得
     this.props.chat.users = [{
@@ -122,10 +101,6 @@ class ChatContainer extends Component {
       created: "timestamp",
       uuid: "zirodesu"
     }]
-  }
-
-
-  loadChatsFromServer() {
   }
 
 }

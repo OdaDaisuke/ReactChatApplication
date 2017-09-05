@@ -3,7 +3,6 @@ import funcs from "../functions"
 import $ from "jquery"
 import io from 'socket.io-client'
 
-// const socket = io('http://localhost:3000')
 const socket = io()
 socket.on('connect', () => {
   console.log('FRONT CONNECTED!!!')
@@ -14,7 +13,6 @@ socket.on('msg push', (msg) => {
 socket.on('msg updateDB', (msg) => {
   console.log('UPDATED!!!!', msg)
 })
-
 
 let chatMold = {
   chat: {
@@ -67,6 +65,15 @@ const chat = (state = initialAppState, action) => {
       return {
         ...state,
         chats: [...state.chats, chat]
+      }
+
+    case actionTypes.INITIAL_MESSAGE :
+      let chats = action.chats
+      console.log(chats)
+
+      return {
+        ...state,
+        chats: chats
       }
 
     case actionTypes.TYPING_MESSAGE :

@@ -1,15 +1,16 @@
-let express = require('express')
-let app = express()
-let router = express.Router()
-let http = require('http')
+let express = require('express'),
+  app = express(),
+  router = express.Router()
+  http = require('http'),
+  mongoose = require('mongoose')
 
-let mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/jsonAPI')
-
-// DB models
+// mongoose
 let User = require('./models/user')
 let Chat = require('./models/chat')
 
+mongoose.connect('mongodb://localhost/jsonAPI')
+
+// router
 router.use((req, res, next) => {
   console.log('ERROR')
   next()
@@ -56,14 +57,33 @@ let server = http.createServer(app).listen(port, () => {
   console.log('WEBSOCKET ESTABLISHED!!!')
 })
 
-
 // socket setting
 let io = require('socket.io').listen(server)
 io.sockets.on('connection', (socket) => {
   socket.on('msg send', (msg) => {
-    socket.emit('msg push', 'RECEIVEDmsg - ' + msg)
+    msg = JSON.parse(msg)
+
+    // DBに登録
+    let chat_data = new Chat()
+    chat_data.uuid = msg.uuid
+    chat_data.created = msg.created
+    chat_data.body = msg.body
+    chat_data.from_id = msg.from_id
+    chat_data.send_to = msg.send_to
+    chat_data.save((err) => {
+      if(err) console.log(err)
+    })
+
+    socket.emit('msg push', msg)
     socket.broadcast.emit('msg push', 'RECEIVEDmsg - ' + msg)
   })
+
+  socket.on('get msg', () => {
+    Chat.find((err, docs) => {
+      socket.emit('msgs push', docs)
+    })
+  })
+
   socket.on('disconnect', () => {
     log('disconnected')
   })

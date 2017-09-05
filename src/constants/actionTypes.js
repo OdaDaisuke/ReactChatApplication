@@ -9,3 +9,6 @@ export const TYPING_MESSAGE = 'TYPING_MESSAGE'
 
 // サイドバーのユーザ一覧のユーザをクリックした時の処理
 export const SELECT_USER = 'SELECT_USER'
+
+// ページ読み込み時のメッセージのロード
+export const INITIAL_MESSAGE = 'INITIAL_MESSAGE'
