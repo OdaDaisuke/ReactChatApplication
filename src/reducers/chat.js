@@ -1,5 +1,6 @@
 import * as actionTypes from "../constants/actionTypes"
 import funcs from "../functions"
+import $ from "jquery"
 
 let chatMold = {
   chat: {
@@ -17,7 +18,7 @@ let userMold = {
     profileUrl: 'image url',
     handle_name: "handle_name",
     created: "timestamp",
-    uuid: "abcdefg"
+    uuid: "abcdefg" //ハンドルネームが変更されても識別できるようにするためuuidが必要
   }
 }
 
@@ -25,7 +26,7 @@ const initialAppState = {
   message: '',
   sending: false,
   typing: false,
-  myId: 'myuuid',
+  myId: 'daisukeoda',
   chat: chatMold.chat,
   currentOpponent: userMold.user,
   user: userMold.user,
@@ -39,16 +40,32 @@ const chat = (state = initialAppState, action) => {
       if(state.message.length < 1) return state
 
       let uuid = funcs.generateUUID()
+      let chat = {
+        uuid: uuid,
+        from_id: state.myId,
+        send_to: state.currentOpponent.uuid,
+        body: state.message
+      }
+
+      $.ajax('/api/message', {
+        type: 'post',
+        data: {
+          uuid: chat.uuid,
+          body: chat.body,
+          created: 34374342,
+          from_id: chat.from_id,
+          send_to: chat.send_to
+        }
+      })
+      .done((data) => {
+        alert(data)
+      }).fail((xhr, status, error) => {
+        console.log(status, error.toString());
+      });
 
       return {
         ...state,
-        message: '',
-        chats: [...state.chats, {
-          uuid: uuid,
-          from_id: state.myId,
-          send_to: state.currentOpponent.uuid,
-          body: state.message
-        }]
+        chats: [...state.chats, chat]
       }
 
     case actionTypes.TYPING_MESSAGE :

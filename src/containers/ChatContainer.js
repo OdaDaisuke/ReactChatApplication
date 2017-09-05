@@ -64,8 +64,6 @@ class ChatContainer extends Component {
       created: "timestamp",
       uuid: "zirodesu"
     }
-    this.props.chat.myId = 'daisukeoda'
-
     this.props.chat.chats = [{
       uuid: 'messageUUIDdesu',
       created: 'timestamp',
@@ -97,6 +95,20 @@ class ChatContainer extends Component {
   }
 
   loadUsersFromServer() {
+    // let _this = this
+    let user_id = this.props.chat.myId
+
+    $.ajax('/api/message', {
+      type: 'get',
+      data: {
+        user_id: user_id
+      }
+    })
+    .done((data) => {
+      console.log(data)
+      // _this.props.chats.push(data)
+    })
+
     // 繋がり済みのユーザをajaxで取得
     this.props.chat.users = [{
       screenname: "田中太郎",

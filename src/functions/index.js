@@ -5,7 +5,7 @@ const funcs = {
     let uuid = '';
 
     for(let i = 0; i < UUID_LENGTH; i++) {
-      let r = parseInt(Math.random() * character.length - 1)
+      let r = parseInt(Math.random() * character.length - 1, 10)
       uuid += character[r]
     }
 
