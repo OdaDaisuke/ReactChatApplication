@@ -101,12 +101,11 @@ class ChatContainer extends Component {
     $.ajax('/api/message', {
       type: 'get',
       data: {
-        user_id: user_id
+        from_id: user_id
       }
     })
     .done((data) => {
       console.log(data)
-      // _this.props.chats.push(data)
     })
 
     // 繋がり済みのユーザをajaxで取得

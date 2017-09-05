@@ -42,25 +42,22 @@ const chat = (state = initialAppState, action) => {
       let uuid = funcs.generateUUID()
       let chat = {
         uuid: uuid,
+        created: new Date().getTime(),
         from_id: state.myId,
         send_to: state.currentOpponent.uuid,
-        body: state.message
+        body: state.message,
       }
 
       $.ajax('/api/message', {
         type: 'post',
-        data: {
-          uuid: chat.uuid,
-          body: chat.body,
-          created: 34374342,
-          from_id: chat.from_id,
-          send_to: chat.send_to
-        }
+        data: chat,
       })
       .done((data) => {
-        alert(data)
+        console.log('AJAX POST DATA : ', data)
+
       }).fail((xhr, status, error) => {
         console.log(status, error.toString());
+
       });
 
       return {

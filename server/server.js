@@ -53,7 +53,7 @@ app.use(express.static('./'))
 
 app.get('/api/message', (req, res) => {
   Chat.find({
-    from_id: req.params.user_id
+    from_id: req.params.from_id
   }, function(err, user) {
     if (err) res.send(err);
     res.json(user);
