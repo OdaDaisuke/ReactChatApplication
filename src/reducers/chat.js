@@ -1,6 +1,20 @@
 import * as actionTypes from "../constants/actionTypes"
 import funcs from "../functions"
 import $ from "jquery"
+import io from 'socket.io-client'
+
+// const socket = io('http://localhost:3000')
+const socket = io()
+socket.on('connect', () => {
+  console.log('FRONT CONNECTED!!!')
+})
+socket.on('msg push', (msg) => {
+  console.log('RECEIVED!!! ', msg)
+})
+socket.on('msg updateDB', (msg) => {
+  console.log('UPDATED!!!!', msg)
+})
+
 
 let chatMold = {
   chat: {
@@ -48,17 +62,7 @@ const chat = (state = initialAppState, action) => {
         body: state.message,
       }
 
-      $.ajax('/api/message', {
-        type: 'post',
-        data: chat,
-      })
-      .done((data) => {
-        console.log('AJAX POST DATA : ', data)
-
-      }).fail((xhr, status, error) => {
-        console.log(status, error.toString());
-
-      });
+      socket.emit('msg send', JSON.stringify(chat))
 
       return {
         ...state,
