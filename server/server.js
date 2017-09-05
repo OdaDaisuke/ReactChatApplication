@@ -1,10 +1,7 @@
 let express = require('express')
 let app = express()
-let bodyParser = require('body-parser')
 let router = express.Router()
-let http = require('http').Server(app)
-let io = require('socket.io')(http)
-let xssFilters = require('xss-filters')
+let http = require('http')
 
 let mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/jsonAPI')
@@ -13,43 +10,18 @@ mongoose.connect('mongodb://localhost/jsonAPI')
 let User = require('./models/user')
 let Chat = require('./models/chat')
 
-// POSTでデータを受け取るための記述
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-// io setting
-io.sockets.on('connection', (socket) => {
-  socket.on('sendMessage', (chat) => {
-    // メッセージが空だったら
-    if (msg == '') return;
-    fs.readFile('db/chats.json', (err, data) => {
-      let chats = JSON.parse(data)
-      chats.push(chat)
-      fs.writeFile('db/chats.json', JSON.stringify(chats, null, 4), (err) => {
-        socket.emit("receiveMessage", chats)
-      })
-    })
-
-  })
-
-  socket.on("disconnect", () => {
-    console.log("user disconnected")
-  })
-
-  setInterval(() => {
-    fs.readFile('db/chats.json', (err, data) => {
-      socket.emit('reveiceMessage', JSON.parse(data))
-    })
-  }, 2000)
-
-})
-
 router.use((req, res, next) => {
   console.log('ERROR')
   next()
 })
 
-app.use(express.static('./'))
+app.use(express.static('../public/'))
+
+// header setting
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next()
+})
 
 app.get('/api/message', (req, res) => {
   Chat.find({
@@ -78,6 +50,21 @@ app.post('/api/message', (req, res) => {
   })
 })
 
-let port = process.env.PORT || 3001
-app.listen(port)
-console.log('Listening on port ' + port)
+let port = process.env.PORT || 3000
+let server = http.createServer(app).listen(port, () => {
+  console.log('SERVER PORT ', port)
+  console.log('WEBSOCKET ESTABLISHED!!!')
+})
+
+
+// socket setting
+let io = require('socket.io').listen(server)
+io.sockets.on('connection', (socket) => {
+  socket.on('msg send', (msg) => {
+    socket.emit('msg push', 'RECEIVEDmsg - ' + msg)
+    socket.broadcast.emit('msg push', 'RECEIVEDmsg - ' + msg)
+  })
+  socket.on('disconnect', () => {
+    log('disconnected')
+  })
+})
