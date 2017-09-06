@@ -13,3 +13,10 @@ export const SELECT_USER = 'SELECT_USER'
 
 // ページ読み込み時のメッセージのロード
 export const INITIAL_MESSAGE = 'INITIAL_MESSAGE'
+
+/**
+ * 開発用
+ */
+
+// 全メッセージ削除
+export const DELETE_ALL_MESSAGE = 'DELETE_ALL_MESSAGE'

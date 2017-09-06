@@ -98,6 +98,13 @@ const chatReducer = (state = initialAppState, action) => {
         currentOpponent: opponentUser
       }
 
+    case actionTypes.DELETE_ALL_MESSAGE :
+      return {
+        ...state,
+        chats: []
+      }
+
+
     default:
       return state
 

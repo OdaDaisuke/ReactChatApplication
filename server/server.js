@@ -60,7 +60,8 @@ let server = http.createServer(app).listen(port, () => {
 // socket setting
 let io = require('socket.io').listen(server)
 io.sockets.on('connection', (socket) => {
-  
+
+  // クライアントからのメッセージ送信
   socket.on('send_message', (msg) => {
     msg = JSON.parse(msg)
 
@@ -79,10 +80,23 @@ io.sockets.on('connection', (socket) => {
     socket.broadcast.emit('return_send_message', 'BroadCast:' + msg)
   })
 
+  // クライアントからの初期メッセージ取得
   socket.on('get_initial_message', () => {
     Chat.find((err, docs) => {
       socket.emit('return_initial_message', docs)
       socket.broadcast.emit('return_initial_message', 'BroadCast:' + docs)
+    })
+  })
+
+  /**
+   * Develop用
+   */
+
+  // クライアントからの全メッセージ削除要求
+  socket.on('dev_delete_all_message', () => {
+    Chat.remove((err, docs) => {
+      socket.emit('return_dev_delete_all_message', docs)
+      socket.broadcast.emit('return_dev_delete_all_message', 'BroadCast:' + docs)
     })
   })
 

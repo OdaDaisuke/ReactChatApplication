@@ -31,6 +31,13 @@ class ChatContainer extends Component {
       _this.props.actions.onInitialMessages(chats)
     })
 
+    /**
+     * 全メッセージ削除に対するレスポンス
+     */
+    socket.on('return_dev_delete_all_message', () => {
+      _this.props.actions.onDeleteAllMessage()
+    })
+
   }
 
   render() {
@@ -41,6 +48,7 @@ class ChatContainer extends Component {
         <UsersSidebar selectedUserId={chatReducer.currentOpponent.uuid} onSelectUser={actions.onSelectUser} users={chatReducer.users} />
         <div className="chat-area">
           <div className="chat-conversation">
+            <p>CHAT LEN : {chatReducer.chats.length}</p>
             {chatReducer.chats.map(_chat => {
               if(_chat.from_id === chatReducer.currentOpponent.uuid &&
                 _chat.send_to === chatReducer.myId) {
@@ -59,12 +67,16 @@ class ChatContainer extends Component {
                   </div>
                 )
 
+              } else {
+                <div>CHATINFO : {_chat}</div>
               }
+
             })}
           </div>
           <div className="chat-form">
             <textarea placeholder="内容を入力" value={chatReducer.message} onChange={e => actions.onTypeMessage(e.target.value)}></textarea>
-            <button onClick={actions.onSetMessageInfo}>送信</button>
+            <button onClick={actions.onSetMessageInfo} className="btn">送信</button>
+            <button onClick={this.deleteAllMessage} className="btn btn--danger">全削除</button>
           </div>
         </div>
       </section>
@@ -89,6 +101,14 @@ class ChatContainer extends Component {
     socket.emit('get_initial_message', () => {
       console.log('SEND get_initial_message REQUEST')
     })
+  }
+
+  deleteAllMessage() {
+    if(confirm('全メッセージ本当に削除しますか？')) {
+      socket.emit('dev_delete_all_message', () => {
+        console.log('SEND dev_delete_all_message REQUEST')
+      })
+    }
   }
 
   loadUsersFromServer() {
