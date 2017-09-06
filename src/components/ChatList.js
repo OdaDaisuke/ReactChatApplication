@@ -8,7 +8,7 @@ const ChatList = ({chats, currentOpponent, myId}) => (
         _chat.send_to === myId) {
         return (
           <div key={_chat.uuid} className="message message--receive">
-            <span>@{_chat.from_id}</span>
+            <span>@{_chat.handle_name}</span>
             <p>{_chat.body}</p>
           </div>
         )
