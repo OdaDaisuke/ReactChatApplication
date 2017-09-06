@@ -3,19 +3,19 @@ import ClassNames from "classnames"
 
 const UserSidebar = ({users, selectedUserId, onSelectUser}) => (
     <aside className="user-sidebar">
-      {users.map(user => {
+      {users.map(_user => {
         const classNames = ClassNames({
           "user-item": true,
-          "selected": (user.uuid === selectedUserId)
+          "selected": (_user.uuid === selectedUserId)
         })
         return (
-          <div className={classNames} key={user.uuid} onClick={() => onSelectUser(user.uuid)}>
+          <div className={classNames} key={_user.uuid} onClick={() => onSelectUser(_user.uuid)}>
             <div className="profile">
-              <img src={user.profileUrl} alt={user.screenname} />
+              <img src={_user.profileUrl} alt={_user.screenname} />
             </div>
             <div className="names">
-              <h3>{user.screenname}</h3>
-              <p>@{user.handle_name}</p>
+              <h3>{_user.screenname}</h3>
+              <p>@{_user.handle_name}</p>
             </div>
           </div>
         )

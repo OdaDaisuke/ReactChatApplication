@@ -7,6 +7,7 @@ import io from 'socket.io-client'
 import * as actions from "../actions"
 import UsersSidebar from "../components/UsersSidebar"
 import InputForm from "../components/InputForm"
+import ChatList from "../components/ChatList"
 
 const socket = io()
 
@@ -53,39 +54,15 @@ class ChatContainer extends Component {
           onSelectUser={actions.onSelectUser}
           users={chatReducer.users} />
         <div className="chat-area">
-          <div className="chat-conversation">
-            <p>CHAT LEN : {chatReducer.chats.length}</p>
-            {chatReducer.chats.map(_chat => {
-              if(_chat.from_id === chatReducer.currentOpponent.uuid &&
-                _chat.send_to === chatReducer.myId) {
-                return (
-                  <div key={_chat.uuid} className="message message--receive">
-                    <span>@{_chat.from_id}</span>
-                    <p>{_chat.body}</p>
-                  </div>
-                )
-
-              } else if(_chat.from_id === chatReducer.myId &&
-                  _chat.send_to === chatReducer.currentOpponent.uuid) {
-                return (
-                  <div key={_chat.uuid} className="message message--send">
-                    <p>{_chat.body}</p>
-                  </div>
-                )
-
-              } else {
-                <div>CHATINFO : {_chat}</div>
-              }
-
-            })}
-          </div>
-          <div className="chat-form">
-            <InputForm
-              messageValu={chatReducer.message}
-              onTypeMessage={actions.onTypeMessage}
-              onSubmit={actions.onSetMessageInfo}
-              onDeleteAll={this.deleteAllMessage} />
-          </div>
+          <ChatList
+            chats={chatReducer.chats}
+            currentOpponent={chatReducer.currentOpponent}
+            myId={chatReducer.myId} />
+          <InputForm
+            messageValu={chatReducer.message}
+            onTypeMessage={actions.onTypeMessage}
+            onSubmit={actions.onSetMessageInfo}
+            onDeleteAll={this.deleteAllMessage} />
         </div>
       </section>
     )
