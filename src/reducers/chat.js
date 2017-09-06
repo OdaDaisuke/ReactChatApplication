@@ -57,20 +57,18 @@ const chat = (state = initialAppState, action) => {
         body: state.message,
       }
 
-      socket.emit('send_message', JSON.stringify(chat))
+      // socket.emit('send_message', JSON.stringify(chat))
 
       return {
         ...state,
+        message: '',
         chats: [...state.chats, chat]
       }
 
     case actionTypes.INITIAL_MESSAGE :
-      let chats = action.chats
-      console.log(chats)
-
       return {
         ...state,
-        chats: chats
+        chats: action.chats
       }
 
     case actionTypes.TYPING_MESSAGE :

@@ -60,6 +60,7 @@ let server = http.createServer(app).listen(port, () => {
 // socket setting
 let io = require('socket.io').listen(server)
 io.sockets.on('connection', (socket) => {
+  
   socket.on('send_message', (msg) => {
     msg = JSON.parse(msg)
 

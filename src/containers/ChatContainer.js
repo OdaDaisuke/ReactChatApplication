@@ -9,6 +9,11 @@ import UsersSidebar from "../components/UsersSidebar"
 
 class ChatContainer extends Component {
 
+  constructor() {
+    super()
+    this.sendMessage = this.sendMessage.bind(this)
+  }
+
   render() {
     const { chat, actions } = this.props
 
@@ -21,7 +26,7 @@ class ChatContainer extends Component {
               if(_chat.from_id === chat.currentOpponent.uuid &&
                 _chat.send_to === chat.myId) {
                 return (
-                  <div className="message message--receive">
+                  <div key={_chat.uuid} className="message message--receive">
                     <span>@{_chat.from_id}</span>
                     <p>{_chat.body}</p>
                   </div>
@@ -30,20 +35,17 @@ class ChatContainer extends Component {
               } else if(_chat.from_id === chat.myId &&
                   _chat.send_to === chat.currentOpponent.uuid) {
                 return (
-                  <div className="message message--send">
+                  <div key={_chat.uuid} className="message message--send">
                     <p>{_chat.body}</p>
                   </div>
                 )
-
-              } else {
-                return ''
 
               }
             })}
           </div>
           <div className="chat-form">
             <textarea placeholder="内容を入力" value={chat.message} onChange={e => actions.onTypeMessage(e.target.value)}></textarea>
-            <button onClick={actions.onSubmitMessage}>送信</button>
+            <button onClick={this.sendMessage}>送信</button>
           </div>
         </div>
       </section>
@@ -68,6 +70,14 @@ class ChatContainer extends Component {
   }
 
   componentDidMount() {
+    this.getInitialMessage()
+  }
+
+  sendMessage() {
+    this.props.actions.onSubmitMessage()
+  }
+
+  getInitialMessage() {
     const socket = io()
 
     let chats = null
@@ -84,7 +94,6 @@ class ChatContainer extends Component {
   }
 
   loadUsersFromServer() {
-    // let _this = this
     let user_id = this.props.chat.myId
 
     // 繋がり済みのユーザをajaxで取得
