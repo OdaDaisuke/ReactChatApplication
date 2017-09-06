@@ -4,12 +4,6 @@ import $ from "jquery"
 import io from 'socket.io-client'
 
 const socket = io()
-socket.on('connect', () => {
-  console.log('FRONT CONNECTED!!!')
-})
-socket.on('return_send_message', (msg) => {
-  console.log('RECEIVED!!! ', msg)
-})
 
 let chatMold = {
   chat: {
@@ -35,17 +29,17 @@ const initialAppState = {
   message: '',
   sending: false,
   typing: false,
-  myId: 'daisukeoda',
-  chat: chatMold.chat,
+  myId: 'daisukeoda98343242', //uuid
   currentOpponent: userMold.user,
   user: userMold.user,
+  chat: chatMold.chat,
   chats: [chatMold.chat],
   users: [userMold.user]
 }
 
-const chat = (state = initialAppState, action) => {
+const chatReducer = (state = initialAppState, action) => {
   switch(action.type) {
-    case actionTypes.SENDING_MESSAGE :
+    case actionTypes.SET_MESSAGE_INFO :
       if(state.message.length < 1) return state
 
       let uuid = funcs.generateUUID()
@@ -57,12 +51,20 @@ const chat = (state = initialAppState, action) => {
         body: state.message,
       }
 
-      // socket.emit('send_message', JSON.stringify(chat))
+      socket.emit('send_message', JSON.stringify(chat))
+
+      return {
+        ...state,
+        chat: chat,
+      }
+
+    case actionTypes.SENDING_MESSAGE :
+      let _chat = state.chat
 
       return {
         ...state,
         message: '',
-        chats: [...state.chats, chat]
+        chats: [...state.chats, _chat]
       }
 
     case actionTypes.INITIAL_MESSAGE :
@@ -103,4 +105,4 @@ const chat = (state = initialAppState, action) => {
 
 }
 
-export default chat
+export default chatReducer

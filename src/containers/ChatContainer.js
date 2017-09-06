@@ -7,24 +7,43 @@ import io from 'socket.io-client'
 import * as actions from "../actions"
 import UsersSidebar from "../components/UsersSidebar"
 
+const socket = io()
+
 class ChatContainer extends Component {
 
-  constructor() {
-    super()
-    this.sendMessage = this.sendMessage.bind(this)
+  constructor(props) {
+    super(props)
+    let _this = this
+
+    /**
+     * メッセージを送信後のserverからのレスポンス
+     * が帰ってきたらDOMに反映
+     */
+    socket.on('return_send_message', (chat_data) => {
+      _this.props.actions.onSubmitMessage()
+    })
+
+    /**
+     * ページ読み込み時の初期メッセージ取得に対するレスポンス
+     */
+    socket.on('return_initial_message', (chat_datas) => {
+      let chats = chat_datas
+      _this.props.actions.onInitialMessages(chats)
+    })
+
   }
 
   render() {
-    const { chat, actions } = this.props
+    const { chatReducer, actions } = this.props
 
     return (
       <section className="content--main">
-        <UsersSidebar selectedUserId={chat.currentOpponent.uuid} onSelectUser={actions.onSelectUser} users={chat.users} />
+        <UsersSidebar selectedUserId={chatReducer.currentOpponent.uuid} onSelectUser={actions.onSelectUser} users={chatReducer.users} />
         <div className="chat-area">
           <div className="chat-conversation">
-            {chat.chats.map(_chat => {
-              if(_chat.from_id === chat.currentOpponent.uuid &&
-                _chat.send_to === chat.myId) {
+            {chatReducer.chats.map(_chat => {
+              if(_chat.from_id === chatReducer.currentOpponent.uuid &&
+                _chat.send_to === chatReducer.myId) {
                 return (
                   <div key={_chat.uuid} className="message message--receive">
                     <span>@{_chat.from_id}</span>
@@ -32,8 +51,8 @@ class ChatContainer extends Component {
                   </div>
                 )
 
-              } else if(_chat.from_id === chat.myId &&
-                  _chat.send_to === chat.currentOpponent.uuid) {
+              } else if(_chat.from_id === chatReducer.myId &&
+                  _chat.send_to === chatReducer.currentOpponent.uuid) {
                 return (
                   <div key={_chat.uuid} className="message message--send">
                     <p>{_chat.body}</p>
@@ -44,8 +63,8 @@ class ChatContainer extends Component {
             })}
           </div>
           <div className="chat-form">
-            <textarea placeholder="内容を入力" value={chat.message} onChange={e => actions.onTypeMessage(e.target.value)}></textarea>
-            <button onClick={this.sendMessage}>送信</button>
+            <textarea placeholder="内容を入力" value={chatReducer.message} onChange={e => actions.onTypeMessage(e.target.value)}></textarea>
+            <button onClick={actions.onSetMessageInfo}>送信</button>
           </div>
         </div>
       </section>
@@ -54,68 +73,47 @@ class ChatContainer extends Component {
   }
 
   componentWillMount() {
-    //　新規メッセージをキャッチするリスナー処理
-    // this.startMessageListener()
-
     this.loadUsersFromServer()
 
-    this.props.chat.currentOpponent = {
+    this.props.chatReducer.currentOpponent = {
       screenname: "田中二郎",
       profileUrl: 'http://placehold.jp/444444/ffffff/150x150.png?text=User',
       handle_name: "ziro_name",
       created: "timestamp",
-      uuid: "zirodesu"
+      uuid: "ziro_name432490823"
     }
 
   }
 
   componentDidMount() {
-    this.getInitialMessage()
-  }
-
-  sendMessage() {
-    this.props.actions.onSubmitMessage()
-  }
-
-  getInitialMessage() {
-    const socket = io()
-
-    let chats = null
-    let _this = this
     socket.emit('get_initial_message', () => {
-      console.log('SEND MSG REQUEST')
-
-    })
-    socket.on('return_initial_message', (chat_datas) => {
-      chats = chat_datas
-      console.log(chats)
-      _this.props.actions.onInitialMessages(chats)
+      console.log('SEND get_initial_message REQUEST')
     })
   }
 
   loadUsersFromServer() {
-    let user_id = this.props.chat.myId
+    let user_id = this.props.chatReducer.myId
 
     // 繋がり済みのユーザをajaxで取得
-    this.props.chat.users = [{
-      screenname: "田中太郎",
+    this.props.chatReducer.users = [{
+      screenname: "大輔",
       profileUrl: 'http://placehold.jp/444444/ffffff/150x150.png?text=User',
-      handle_name: "tanaka_3484_t",
+      handle_name: "daisukeoda",
       created: "timestamp",
-      uuid: "abcdefg"
+      uuid: "daisukeoda98343242"
     }, {
       screenname: "田中二郎",
       profileUrl: 'http://placehold.jp/444444/ffffff/150x150.png?text=User',
       handle_name: "ziro_name",
       created: "timestamp",
-      uuid: "zirodesu"
+      uuid: "ziro_name432490823"
     }]
   }
 
 }
 
 const mapState = (state, ownProps) => ({
-  chat: state.chat,
+  chatReducer: state.chatReducer,
 })
 
 function mapDispatch(dispatch) {

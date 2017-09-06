@@ -1,5 +1,6 @@
 // メッセージを送信中
 export const SENDING_MESSAGE = 'SENDING_MESSAGE'
+export const SET_MESSAGE_INFO = 'SET_MESSAGE_INFO'
 
 // メッセージを受信中
 export const RECEIVING_MESSAGE = 'RECEIVING_MESSAGE'

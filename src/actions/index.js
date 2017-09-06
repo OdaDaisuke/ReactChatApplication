@@ -4,6 +4,10 @@ export const onSubmitMessage = () => ({
   type: actionTypes.SENDING_MESSAGE,
 })
 
+export const onSetMessageInfo = () => ({
+  type: actionTypes.SET_MESSAGE_INFO,
+})
+
 export const onTypeMessage = (message) => ({
   type: actionTypes.TYPING_MESSAGE,
   message
