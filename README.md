@@ -8,12 +8,6 @@ $ yarn run develop # webpacでreactをビルド
 $ node ./server/server.js
 ```
 
-別タブでmongoを起動
-
-```terminal
-$ mongo
-```
-
 ## 2.開発する場合
 
 ```terminal
