@@ -30,7 +30,7 @@ const initialAppState = {
   sending: false,
   typing: false,
   myId: 'daisukeoda98343242', //uuid
-  currentOpponent: userMold.user,
+  currentOpponent: userMold.user, //選択中の相手
   user: userMold.user,
   chat: chatMold.chat,
   chats: [chatMold.chat],
@@ -102,6 +102,12 @@ const chatReducer = (state = initialAppState, action) => {
       return {
         ...state,
         chats: []
+      }
+
+    case actionTypes.SELECT_ME :
+      return {
+        ...state,
+        myId: action.uuid
       }
 
 

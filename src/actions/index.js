@@ -28,6 +28,16 @@ export const onInitialMessages = (chats) => ({
   chats
 })
 
+/**
+ * Develop用
+ */
+
+// ログイン主ユーザを選択時
+export const onSelectMe = (uuid) => ({
+  type: actionTypes.SELECT_ME,
+  uuid
+})
+
 // 全メッセージ削除
 export const onDeleteAllMessage = () => ({
   type: actionTypes.DELETE_ALL_MESSAGE

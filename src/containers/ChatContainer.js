@@ -17,6 +17,9 @@ class ChatContainer extends Component {
     super(props)
     let _this = this
 
+    /**
+     * bind
+     */
     this.deleteAllMessage = this.deleteAllMessage.bind(this)
 
     /**
@@ -52,7 +55,9 @@ class ChatContainer extends Component {
         <UsersSidebar
           selectedUserId={chatReducer.currentOpponent.uuid}
           onSelectUser={actions.onSelectUser}
-          users={chatReducer.users} />
+          onSelectMe={actions.onSelectMe}
+          users={chatReducer.users}
+          myId={chatReducer.myId} />
         <div className="chat-area">
           <ChatList
             chats={chatReducer.chats}

@@ -18,5 +18,8 @@ export const INITIAL_MESSAGE = 'INITIAL_MESSAGE'
  * 開発用
  */
 
+// ユーザリストの中のユーザを自分として選択する時
+export const SELECT_ME = 'SELECT_ME'
+
 // 全メッセージ削除
 export const DELETE_ALL_MESSAGE = 'DELETE_ALL_MESSAGE'
