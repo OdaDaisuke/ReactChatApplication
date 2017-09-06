@@ -59,12 +59,10 @@ const chatReducer = (state = initialAppState, action) => {
       }
 
     case actionTypes.SENDING_MESSAGE :
-      let _chat = state.chat
-
       return {
         ...state,
         message: '',
-        chats: [...state.chats, _chat]
+        chats: [...state.chats, action.chat_data]
       }
 
     case actionTypes.INITIAL_MESSAGE :

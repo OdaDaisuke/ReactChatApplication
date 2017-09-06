@@ -27,7 +27,8 @@ class ChatContainer extends Component {
      * が帰ってきたらDOMに反映
      */
     socket.on('return_send_message', (chat_data) => {
-      _this.props.actions.onSubmitMessage()
+      chat_data = JSON.parse(chat_data)
+      _this.props.actions.onSubmitMessage(chat_data)
     })
 
     /**
@@ -78,11 +79,11 @@ class ChatContainer extends Component {
     this.loadUsersFromServer()
 
     this.props.chatReducer.currentOpponent = {
-      screenname: "田中二郎",
+      screenname: "山本二郎",
       profileUrl: 'http://placehold.jp/444444/ffffff/150x150.png?text=User',
-      handle_name: "ziro_name",
+      handle_name: "yamamoto_name",
       created: "timestamp",
-      uuid: "ziro_name432490823"
+      uuid: "yamamoto_name4324adsf9aoE0823"
     }
 
   }
@@ -108,15 +109,15 @@ class ChatContainer extends Component {
     this.props.chatReducer.users = [{
       screenname: "大輔",
       profileUrl: 'http://placehold.jp/444444/ffffff/150x150.png?text=User',
-      handle_name: "daisukeoda",
+      handle_name: "daisuke",
       created: "timestamp",
-      uuid: "daisukeoda98343242"
+      uuid: "daisuke98Ae34fp03A2ECskerha4bta2e"
     }, {
-      screenname: "田中二郎",
+      screenname: "山本二郎",
       profileUrl: 'http://placehold.jp/444444/ffffff/150x150.png?text=User',
-      handle_name: "ziro_name",
+      handle_name: "yamamoto_name",
       created: "timestamp",
-      uuid: "ziro_name432490823"
+      uuid: "yamamoto_name4324adsf9aoE0823"
     }]
   }
 

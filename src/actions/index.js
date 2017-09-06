@@ -1,8 +1,9 @@
 import * as actionTypes from '../constants/actionTypes';
 
 // メッセージ情報をサーバに送信
-export const onSubmitMessage = () => ({
+export const onSubmitMessage = (chat_data) => ({
   type: actionTypes.SENDING_MESSAGE,
+  chat_data
 })
 
 // メッセージ情報セット

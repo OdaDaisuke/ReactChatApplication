@@ -76,15 +76,15 @@ io.sockets.on('connection', (socket) => {
       if(err) console.log(err)
     })
 
-    socket.emit('return_send_message', msg)
-    socket.broadcast.emit('return_send_message', 'BroadCast:' + msg)
+    socket.emit('return_send_message', JSON.stringify(msg))
+    socket.broadcast.emit('return_send_message', JSON.stringify(msg))
   })
 
   // クライアントからの初期メッセージ取得
   socket.on('get_initial_message', () => {
     Chat.find((err, docs) => {
       socket.emit('return_initial_message', docs)
-      socket.broadcast.emit('return_initial_message', 'BroadCast:' + docs)
+      socket.broadcast.emit('return_initial_message', docs)
     })
   })
 
