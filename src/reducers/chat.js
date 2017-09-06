@@ -80,7 +80,7 @@ const chatReducer = (state = initialAppState, action) => {
       }
 
     case actionTypes.SELECT_USER :
-      /* actionで「uuid」が渡されるので概要ユーザのオブジェクトを
+      /* actionで「uuid」が渡されるので該当ユーザのオブジェクトを
        * 取得してcurrentOpponentにセット
        */
       let opponentUser = null

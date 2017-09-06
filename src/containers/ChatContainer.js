@@ -6,6 +6,7 @@ import io from 'socket.io-client'
 
 import * as actions from "../actions"
 import UsersSidebar from "../components/UsersSidebar"
+import InputForm from "../components/InputForm"
 
 const socket = io()
 
@@ -14,6 +15,8 @@ class ChatContainer extends Component {
   constructor(props) {
     super(props)
     let _this = this
+
+    this.deleteAllMessage = this.deleteAllMessage.bind(this)
 
     /**
      * メッセージを送信後のserverからのレスポンス
@@ -45,7 +48,10 @@ class ChatContainer extends Component {
 
     return (
       <section className="content--main">
-        <UsersSidebar selectedUserId={chatReducer.currentOpponent.uuid} onSelectUser={actions.onSelectUser} users={chatReducer.users} />
+        <UsersSidebar
+          selectedUserId={chatReducer.currentOpponent.uuid}
+          onSelectUser={actions.onSelectUser}
+          users={chatReducer.users} />
         <div className="chat-area">
           <div className="chat-conversation">
             <p>CHAT LEN : {chatReducer.chats.length}</p>
@@ -74,9 +80,11 @@ class ChatContainer extends Component {
             })}
           </div>
           <div className="chat-form">
-            <textarea placeholder="内容を入力" value={chatReducer.message} onChange={e => actions.onTypeMessage(e.target.value)}></textarea>
-            <button onClick={actions.onSetMessageInfo} className="btn">送信</button>
-            <button onClick={this.deleteAllMessage} className="btn btn--danger">全削除</button>
+            <InputForm
+              messageValu={chatReducer.message}
+              onTypeMessage={actions.onTypeMessage}
+              onSubmit={actions.onSetMessageInfo}
+              onDeleteAll={this.deleteAllMessage} />
           </div>
         </div>
       </section>
