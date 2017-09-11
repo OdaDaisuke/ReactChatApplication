@@ -2,7 +2,10 @@ let express = require('express'),
   app = express(),
   router = express.Router()
   http = require('http'),
-  mongoose = require('mongoose')
+  mongoose = require('mongoose'),
+  session = require('express-session'),
+  auth = require('./passportOAuth'),
+  passport = auth.passport,
 
 // mongoose
 let User = require('./models/user')
@@ -16,6 +19,12 @@ router.use((req, res, next) => {
   next()
 })
 
+// passport-twitter用
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(session({
+  secret: 'itagaki',
+}))
 app.use(express.static('../public/'))
 
 // header setting
