@@ -20,7 +20,7 @@ const UserSidebar = ({users, selectedUserId, onSelectUser, onSelectMe, myId}) =>
           </div>
         )
       })}
-      <h2>自分を選ぶ</h2>
+      <h2>Me for dev</h2>
       {users.map(_user => {
         const classNames = ClassNames({
           "user-item": true,
@@ -38,7 +38,7 @@ const UserSidebar = ({users, selectedUserId, onSelectUser, onSelectMe, myId}) =>
           </div>
         )
       })}
-      <h2>自分</h2>
+      <h2>My uuid</h2>
       <p>{myId}</p>
     </aside>
 )
